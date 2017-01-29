@@ -1,77 +1,146 @@
-console.warn("Hola");
-console.info("LLueve");
-console.error("Cuidao!!");
+//Sección 2. Funciones
+//"use strict"
+var a = 30;
+primeraFuncion();
 
-var a = undefined;
-console.error(a == null);
+function primeraFuncion() {
+    //var a = 20;
+    console.log("a:" + a);
 
-//JS Asíncrono ?
+};
 
-function imprimir() {
-    for (var i = 0; i < 10   ; i++) {
-        console.log("Prueba");
+//Valores de retorno
+function imprimir(nombre, apellidos) {
+    apellidos = apellidos || "";
+    console.log(apellidos);
+}
+
+
+imprimir(false, {
+    matricula: "1234AB",
+    marca: 'Seat',
+    modelo: "León"
+});
+
+function imprimirFN(fn) {
+    fn();
+}
+
+imprimirFN(function() {
+    console.log('Imprime func. anónima');
+});
+
+var miFuncion = function() {
+    console.log('Imprime miFuncion');
+}
+miFuncion
+imprimirFN(miFuncion);
+
+
+//Valores de retorno
+
+function obtenerAleatorio() {
+    return Math.random();
+}
+
+function obtenerNombre() {
+    return "Domingo";
+}
+console.log("Aleatorio:" + (obtenerAleatorio() + 10));
+
+console.log("Nombre:" + obtenerNombre() + " Pérez");
+
+function esMayor05() {
+    return (obtenerAleatorio() > 0.5);
+}
+
+if (esMayor05()) {
+    console.log('Es mayor 0.5');
+} else {
+    console.log('Es menor 0.5');
+}
+
+function crearPersona(nombre, apellidos) {
+    return {
+        nombre: nombre,
+        apellido: apellidos
     }
 }
 
-function hacerAlgo() {
-    console.log('Hace algo');
+console.log(crearPersona("Maria", "Luna"));
+
+function crearFuncion(autor) {
+    return function() {
+        console.log("Me creó " + autor);
+        return Date();
+    }
 }
 
-imprimir();
+var miFn = crearFuncion("Frank");
+console.log(miFn());
 
+////Funciones de primera clase
 
-//Tipos primitivos
-var nombre = "Domingo";
-var edad = 47;
-var casado = true;
-var departamento = null;
-var salario = undefined;
+crearPersona.nombre = "Ana";
+crearPersona.apply = "Maria";
 
-//Tipo objetos
-var usuario1 = {
-    nombre: "Pilar",
-    edad: 47,
-    casado: true,
-    departamento: null,
-    salario: undefined,
-    apellidos: "Jimeno",
-    direccion: {
-        poblacion: "08800 L'Hospitalet",
-        calle: "C/ San Juan",
-        numero: 12,
-        puerta: "2º 1ª",
+console.log(crearPersona);
+
+////Métodos y el objeto this
+var persona1 = {
+    nombre: "Carlos",
+    apellidos: "Montero",
+    dirPostal: {
+        calle: "Av. Lugo, 12",
+        piso: "2ª - 1ª",
+        poblacion: "La Coruña",
+        CP: "15003",
+        pais: "España",
     },
+    getNombre: function() {
+        return this.nombre + " " + this.apellidos;
 
-    generaDir: function() {
-      return this.nombre + " " + this.apellidos + "\n" + this.direccion.calle + ", " + this.direccion.numero  + " " +this.direccion.puerta + "\n" + this.direccion.poblacion;
     },
-    enviarCartas: true,
+    getDirPostal: function() {
+        console.log(this);
+        return `${this.nombre} ${this.apellidos}
+    ${this.dirPostal.calle} ${this.dirPostal.piso}
+    ${this.dirPostal.CP} ${this.dirPostal.poblacion}`;
+
+    },
+}
+console.log("Dir. Postal: \n\n" + persona1.getDirPostal());
+
+////Comando new y prototype
+
+function Persona() {
+    this.nombre = "Juan";
+    this.apellidos = "Martínez";
+    this.edad = 15;
+    this.imprimirNombre = function() {
+        return this.nombre + " " + this.apellidos
+    }
+}
+
+Persona.prototype.esAdulto = function() {
+    return (this.edad >= 18) ? "Adulto" : "Menor";
+}
+
+Persona.prototype.imprimirInfo = function() {
+    return this.nombre + " " + this.apellidos + " {" + this.esAdulto() + "}"
 };
+var juan = new Persona();
 
-console.log(usuario1);
-if (usuario1.enviarCartas)
-{
-  console.log(usuario1.generaDir());
+console.log(juan.imprimirInfo());
 
+////typeof, instanceof
+
+function identifica(parametro) {
+    if (parametro instanceof Persona) {
+        console.log("identificado: " + parametro.imprimirInfo());
+    } else {
+        console.log("identificado: " + parametro);
+    }
 }
 
-//Por valor y por referencia
-
-var usuario2 = usuario1;
-usuario1.direccion.puerta = "Bajos";
-usuario2.nombre = "María Pilar";
-usuario2["apellidos"] = "Smith";
-  console.log(usuario1.generaDir());
-
-usuario1.poblacion = {
-  cp : 08830,
-  localidad: "Badalona",
-  provincia: "Barcelona",
-  pais: "España",
-}
-
-console.log(usuario1.generaDir());
-
-
-var campo = "direccion";
-console.log("Campo:" + campo + " = " + usuario1[campo].calle);
+identifica(juan);
