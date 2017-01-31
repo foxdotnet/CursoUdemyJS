@@ -1,146 +1,65 @@
-//Sección 2. Funciones
-//"use strict"
-var a = 30;
-primeraFuncion();
+////Arreglos []
+var a = [1,2,6,4,5,"a", "b", "c"];
+var r;
+var tmp = a.concat([]);
 
-function primeraFuncion() {
-    //var a = 20;
-    console.log("a:" + a);
+function impMensaje(txt){
+  console.info(txt + "\n"+ "---------------")
+  console.log("a:" , a);
+  console.log("tmp:" , tmp);
+  console.log("r:" , r, "(" + typeof r + ")");
 
-};
-
-//Valores de retorno
-function imprimir(nombre, apellidos) {
-    apellidos = apellidos || "";
-    console.log(apellidos);
+  a = tmp.slice();
 }
 
+//map
 
-imprimir(false, {
-    matricula: "1234AB",
-    marca: 'Seat',
-    modelo: "León"
-});
-
-function imprimirFN(fn) {
-    fn();
+var r = a.map( function(elm){
+  elm *= elm;
+  return elm;
 }
-
-imprimirFN(function() {
-    console.log('Imprime func. anónima');
-});
-
-var miFuncion = function() {
-    console.log('Imprime miFuncion');
-}
-miFuncion
-imprimirFN(miFuncion);
+);
+impMensaje("map");
 
 
-//Valores de retorno
+//join
+r = a.join("|");
+impMensaje("join");
 
-function obtenerAleatorio() {
-    return Math.random();
-}
+//split
+a = r.split("|");
+impMensaje("split");
 
-function obtenerNombre() {
-    return "Domingo";
-}
-console.log("Aleatorio:" + (obtenerAleatorio() + 10));
+//push
+ r = a.push(6,7,{nom:'Paco',app:'Leon'});//número con la longitud del array resultante
+impMensaje("push");
 
-console.log("Nombre:" + obtenerNombre() + " Pérez");
+//unshift
+r = a.unshift(-1,0,{nom: 'Andrea',app:'Montes'}, function(){var marca = "Citroen"; console.log(marca)});
+impMensaje('unshift');
 
-function esMayor05() {
-    return (obtenerAleatorio() > 0.5);
-}
+//toString
+r = a.toString();
+impMensaje("toString");
 
-if (esMayor05()) {
-    console.log('Es mayor 0.5');
-} else {
-    console.log('Es menor 0.5');
-}
+//reverse
+r = a.reverse(); // Ojo que ahora a = a (misma referencia)
+impMensaje("reverse");
 
-function crearPersona(nombre, apellidos) {
-    return {
-        nombre: nombre,
-        apellido: apellidos
-    }
-}
+//pop
+r = a.pop(); //quita el último elemento y lo rorna
+impMensaje("pop");
+a.push(r);// lo volvemos a meter :D
 
-console.log(crearPersona("Maria", "Luna"));
+//splice (empalmar)
+r = a.splice(2, 2, "x", "y");
+impMensaje("splice");
 
-function crearFuncion(autor) {
-    return function() {
-        console.log("Me creó " + autor);
-        return Date();
-    }
-}
+//slice (trozo)
+r = a.slice(1, 3);
+impMensaje("slice");
 
-var miFn = crearFuncion("Frank");
-console.log(miFn());
-
-////Funciones de primera clase
-
-crearPersona.nombre = "Ana";
-crearPersona.apply = "Maria";
-
-console.log(crearPersona);
-
-////Métodos y el objeto this
-var persona1 = {
-    nombre: "Carlos",
-    apellidos: "Montero",
-    dirPostal: {
-        calle: "Av. Lugo, 12",
-        piso: "2ª - 1ª",
-        poblacion: "La Coruña",
-        CP: "15003",
-        pais: "España",
-    },
-    getNombre: function() {
-        return this.nombre + " " + this.apellidos;
-
-    },
-    getDirPostal: function() {
-        console.log(this);
-        return `${this.nombre} ${this.apellidos}
-    ${this.dirPostal.calle} ${this.dirPostal.piso}
-    ${this.dirPostal.CP} ${this.dirPostal.poblacion}`;
-
-    },
-}
-console.log("Dir. Postal: \n\n" + persona1.getDirPostal());
-
-////Comando new y prototype
-
-function Persona() {
-    this.nombre = "Juan";
-    this.apellidos = "Martínez";
-    this.edad = 15;
-    this.imprimirNombre = function() {
-        return this.nombre + " " + this.apellidos
-    }
-}
-
-Persona.prototype.esAdulto = function() {
-    return (this.edad >= 18) ? "Adulto" : "Menor";
-}
-
-Persona.prototype.imprimirInfo = function() {
-    return this.nombre + " " + this.apellidos + " {" + this.esAdulto() + "}"
-};
-var juan = new Persona();
-
-console.log(juan.imprimirInfo());
-
-////typeof, instanceof
-
-function identifica(parametro) {
-    if (parametro instanceof Persona) {
-        console.log("identificado: " + parametro.imprimirInfo());
-    } else {
-        console.log("identificado: " + parametro);
-    }
-}
-
-identifica(juan);
+//concat
+r = a.concat(["Pedro", "Juan"]);
+r.push("Zoilo");
+impMensaje("concat");
